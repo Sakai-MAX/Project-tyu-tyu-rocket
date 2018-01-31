@@ -4,6 +4,7 @@
 #include "sprite.h"
 #include "release.h"
 #include "title.h"
+#include "padinput.h"
 
 
 //コンストラクタ
@@ -80,12 +81,16 @@ bool Title::update()
     position5_.x = rx4;
     position5_.y = ry4;
 
-    //左クリックされたら、タイトルシーンを終了
-    /*if( mouse.leftButton == true )
-    {
-    thn = true;
+    auto key = KeyInput::getState();
+    auto key_tracker = KeyInput::getTracker();
+    auto pad = PadInput::getTracker();
 
-    }*/
+    //スペースキーかAボタンがが押されたら、タイトルシーンを終了
+    if( key.Z || pad.a == GamePad::ButtonStateTracker::HELD )
+    {
+        thn = true;
+
+    }
 
     if( thn == true )
     {

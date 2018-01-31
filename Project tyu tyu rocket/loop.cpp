@@ -3,8 +3,9 @@
 #include "direct3d.h"
 #include "sprite.h"
 #include "keyinput.h"
+#include "padinput.h"
 #include "player.h"
-//#include "field.h"
+#include "field.h"
 #include "error.h"
 #include "game.h"
 #include "font.h"
@@ -110,6 +111,9 @@ int Loop::update( const HINSTANCE hInstance )
 
                 // “ü—Í‚Ìæ“¾
 
+                // “ü—Í‚Ìæ“¾
+                KeyInput::update();
+                PadInput::update();
 
                 //ƒV[ƒ“–ˆ‚Ìˆ—
                 switch( work_no_ )

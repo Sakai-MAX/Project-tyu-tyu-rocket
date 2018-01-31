@@ -4,11 +4,10 @@
 #include "sprite.h"
 #include "error.h"
 #include "keyinput.h"
-#include "padinput.h"
 #include "release.h"
 
 //定数
-const int kTileSize = 25;   //タイルサイズ
+const int kTileSize = 64;   //タイルサイズ
 
 float ac = 0;
 float wc = 0;
@@ -32,7 +31,7 @@ Field::Field()
 bool Field::init()
 {
     //テクスチャの読み込み
-    if( !(texture_ = Texture::load( L"texture_1.png" )) )
+    if( !(texture_ = Texture::load( L"きのこ狩りの男ex.png" )) )
     {
         //エラー
         return false;
@@ -40,7 +39,7 @@ bool Field::init()
     }
 
     //FMFファイルからデータを読み込む
-    FILE* fp = fopen( "sisaku1.fmf", "rb" );
+    FILE* fp = fopen( "map.fmf", "rb" );
 
     //ファイルが明けたか確認
     if( !fp )
@@ -100,7 +99,6 @@ void Field::update()
 {
 
     // 入力状態を取得
-    auto pad = PadInput::getTracker();
     auto key = KeyInput::getState();
     auto key_tracker = KeyInput::getTracker();
 
