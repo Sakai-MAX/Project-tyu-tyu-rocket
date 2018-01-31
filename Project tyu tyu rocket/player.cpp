@@ -2,6 +2,7 @@
 #include "direct3d.h"
 #include "texture.h"
 #include "keyinput.h"
+#include "padinput.h"
 #include "sprite.h"
 #include "release.h"
 #include"font.h"
@@ -17,7 +18,6 @@ bool Player::doku;
 float rotation = 0.0F;
 bool chase = true;  // 追跡フラグ
 const float radius = 32.0F;     //半径
-
 
 //*****************************************************************************
 //  コンストラクタ
@@ -78,7 +78,6 @@ Player::Player()
     Player::ret = true;    //戻り値用
     Player::syuuryou = true;
     Player::doku = true;
-
 }
 
 //*****************************************************************************
@@ -119,6 +118,39 @@ bool Player::update()
     //入力を取得
     auto key = KeyInput::getState();
     auto key_tracker = KeyInput::getTracker();
+    auto pad = PadInput::getTracker();
+    auto kaiten = PadInput::State();
+    x = kaiten.thumbSticks.leftX;
+    y = kaiten.thumbSticks.leftY;
+
+    //アナログ入力がある場合のみ移動
+    if( x != 0.0F || y != 0.0F )
+    {
+
+        //角度を計算（戻り値はラジアン）
+        float rad = atan2( y, x );
+
+        //長さを計算
+        float length = hypot( x, y );
+
+        //移動
+        position_.x += cos( rad ) * length * 10.0F;
+        position_.y -= sin( rad ) * length * 10.0F;
+    }
+
+    ////////////////////  Aボタン  //////////////////////
+    if( key_tracker.pressed.Z || pad.a == GamePad::ButtonStateTracker::HELD )
+    {
+        chase = true;
+        trim_.top = 450L;
+        trim_.left = 452L;
+        trim_.right = 510L;
+        trim_.bottom = 511L;
+        //2点間の距離を求める
+        float length = pow( position_.x - position2_.x, 2.0F ) + pow( position_.y - position2_.y, 2.0F );
+        //2点間の距離を求める
+        float length2 = pow( position_.x - position4_.x, 2.0F ) + pow( position_.y - position4_.y, 2.0F );
+    }
     // 角度を計算(戻り値はラジアン)
     rad = atan2( y, -x );
     // 長さを計算
