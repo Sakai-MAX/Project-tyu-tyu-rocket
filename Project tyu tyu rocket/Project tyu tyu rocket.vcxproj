@@ -87,6 +87,9 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <SDLCheck>false</SDLCheck>
+      <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -135,8 +138,54 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="direct3d.cpp" />
+    <ClCompile Include="error.cpp" />
+    <ClCompile Include="field.cpp" />
+    <ClCompile Include="font.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="keyinput.cpp" />
+    <ClCompile Include="loop.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="padinput.cpp" />
+    <ClCompile Include="player.cpp" />
+    <ClCompile Include="sprite.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</ForcedIncludeFiles>
+    </ClCompile>
+    <ClCompile Include="texture.cpp" />
+    <ClCompile Include="title.cpp" />
+    <ClCompile Include="window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="direct3d.h" />
+    <ClInclude Include="error.h" />
+    <ClInclude Include="field.h" />
+    <ClInclude Include="font.h" />
+    <ClInclude Include="game.h" />
+    <ClInclude Include="keyinput.h" />
+    <ClInclude Include="loop.h" />
+    <ClInclude Include="padinput.h" />
+    <ClInclude Include="player.h" />
+    <ClInclude Include="release.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="sprite.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="texture.h" />
+    <ClInclude Include="title.h" />
+    <ClInclude Include="window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\directxtk_desktop_2015.2017.12.13.1\build\native\directxtk_desktop_2015.targets" Condition="Exists('..\packages\directxtk_desktop_2015.2017.12.13.1\build\native\directxtk_desktop_2015.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>このプロジェクトは、このコンピューター上にない NuGet パッケージを参照しています。それらのパッケージをダウンロードするには、[NuGet パッケージの復元] を使用します。詳細については、http://go.microsoft.com/fwlink/?LinkID=322105 を参照してください。見つからないファイルは {0} です。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\directxtk_desktop_2015.2017.12.13.1\build\native\directxtk_desktop_2015.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\directxtk_desktop_2015.2017.12.13.1\build\native\directxtk_desktop_2015.targets'))" />
+  </Target>
 </Project>
