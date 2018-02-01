@@ -65,7 +65,7 @@ void Sprite::Draw(
 {
     Color color( 1.0F, 1.0F, 1.0F, static_cast<float>(Alpha) / 255.0F );        //最後の数字を変えると投下できる
 
-                                                                                // 描画
+// 描画
     sprite_->Draw(
         Texture,       // シェーダリソースビューのポインタ
         Position,      // 座標

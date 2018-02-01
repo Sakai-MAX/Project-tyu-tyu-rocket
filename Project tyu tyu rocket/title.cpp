@@ -12,7 +12,7 @@ Title::Title()
 {
 
     texture_ = NULL;
-    position_ = Vector2( 360.0F, 320.0F );
+    position_ = Vector2( 0.0F, 0.0F );
     position2_ = Vector2( 78.0F, 456.0F );
     position3_ = Vector2( 500.0F, 500.0F );
     position4_ = Vector2( 1000.0F, 700.0F );
@@ -48,7 +48,7 @@ bool Title::init()
 {
 
     //テクスチャの読み込み
-    if( !(texture_ = Texture::load( L"きのこ狩りの男ex.png" )) )
+    if( !(texture_ = Texture::load( L"tyutyu1.png" )) )
     {
         //エラー
         return false;
@@ -62,24 +62,6 @@ bool Title::init()
 bool Title::update()
 {
     ret = true;    //戻り値用
-
-    rx1 = (rand() % 1220) + 30.0F;
-    ry1 = (rand() % 650) + 30.0F;
-    rx2 = (rand() % 1220) + 30.0F;
-    ry2 = (rand() % 650) + 30.0F;
-    rx3 = (rand() % 1220) + 30.0F;
-    ry3 = (rand() % 650) + 30.0F;
-    rx4 = (rand() % 1220) + 30.0F;
-    ry4 = (rand() % 650) + 30.0F;
-
-    position2_.x = rx1;
-    position2_.y = ry1;
-    position3_.x = rx2;
-    position3_.y = ry2;
-    position4_.x = rx3;
-    position4_.y = ry3;
-    position5_.x = rx4;
-    position5_.y = ry4;
 
     auto key = KeyInput::getState();
     auto key_tracker = KeyInput::getTracker();
@@ -110,7 +92,7 @@ bool Title::update()
 //描画
 void Title::draw()
 {
-    Sprite::Draw(
+    /*Sprite::Draw(
         texture_,
         position2_,
         &trim2_,
@@ -148,9 +130,9 @@ void Title::draw()
         0.0F,
         direction_,
         Vector2( 1.0F, 1.0F ),
-        Vector2( 32.0F, 32.0F ) );
+        Vector2( 32.0F, 32.0F ) );*/
 
-    Sprite::Draw( texture_, position_, &trim_, txc );
+    Sprite::Draw( texture_, position_, 0, txc );
 
 
 

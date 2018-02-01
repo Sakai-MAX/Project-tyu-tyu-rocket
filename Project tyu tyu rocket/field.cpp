@@ -7,7 +7,7 @@
 #include "release.h"
 
 //定数
-const int kTileSize = 64;   //タイルサイズ
+const int kTileSize = 72;   //タイルサイズ
 
 float ac = 0;
 float wc = 0;
@@ -31,7 +31,7 @@ Field::Field()
 bool Field::init()
 {
     //テクスチャの読み込み
-    if( !(texture_ = Texture::load( L"きのこ狩りの男ex.png" )) )
+    if( !(texture_ = Texture::load( L"tyutyu1.png" )) )
     {
         //エラー
         return false;
@@ -39,7 +39,7 @@ bool Field::init()
     }
 
     //FMFファイルからデータを読み込む
-    FILE* fp = fopen( "map.fmf", "rb" );
+    FILE* fp = fopen( "map2.fmf", "rb" );
 
     //ファイルが明けたか確認
     if( !fp )
@@ -70,9 +70,9 @@ bool Field::init()
     //ID取得のためのヘッダ部分をスキップ
     fseek( fp, 20L, SEEK_SET );
 
-    float j = 0;
     for( int i = 0; i < width_ * height_; i++ )
     {
+        tiles_[ i ].position.x = 360.0F;
         //IDの取得
         fread( &tiles_[ i ].id, sizeof( char ), 1, fp );
 
@@ -83,8 +83,8 @@ bool Field::init()
         tiles_[ i ].trim.bottom = tiles_[ i ].trim.top + kTileSize;
 
         //座標設定
-        tiles_[ i ].position.x = static_cast<float>(kTileSize * (i % width_));
-        tiles_[ i ].position.y = static_cast<float>(kTileSize * (i / width_));
+        tiles_[ i ].position.x += static_cast<float>(kTileSize * (i % width_));
+        tiles_[ i ].position.y += static_cast<float>(kTileSize * (i / width_));
     }
 
     //ファイルを閉じる

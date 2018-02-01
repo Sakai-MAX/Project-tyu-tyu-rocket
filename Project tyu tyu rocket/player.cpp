@@ -7,6 +7,7 @@
 #include "release.h"
 #include"font.h"
 #include "title.h"
+#include "field.h"
 
 bool Player::ret;
 bool Player::syuuryou;
@@ -42,31 +43,12 @@ Player::Player()
     clear_trim_ = { 256L ,85L, (256L + 256L), (55L + 120L) };
     message_trim_ = { 256L ,55L, (256L + 256L), (55L + 30L) };
 
-    //手
-    trim_.top = 450L;
-    trim_.left = 390L;
-    trim_.right = 450L;
-    trim_.bottom = 511L;
+    //カーソール
+    trim_.top = 0L;
+    trim_.left = 764L;
+    trim_.right = 811L;
+    trim_.bottom = 47L;
 
-    //きのこ1
-    trim2_.top = 448L;
-    trim2_.left = 196L;
-    trim2_.right = 255L;
-    trim2_.bottom = 511L;
-
-    //きのこ2
-    trim3_.top = 448L;
-    trim3_.left = 260L;
-    trim3_.right = 322L;
-    trim3_.bottom = 511L;
-
-    //射撃
-    shooting_ = false;
-    i = 0;
-    j = 0;
-
-    // 的に当たったかどうか
-    terget_hit_flag_ = false;
 
     terget_radius_ = 32.0F;   // ターゲットの半径
     ball_radius_ = 9.0F;    // 砲弾の半径
@@ -78,6 +60,7 @@ Player::Player()
     Player::ret = true;    //戻り値用
     Player::syuuryou = true;
     Player::doku = true;
+    
 }
 
 //*****************************************************************************
@@ -86,7 +69,7 @@ Player::Player()
 bool Player::init()
 {
     // テクスチャの読み込み
-    if( !(texture_ = Texture::load( L"きのこ狩りの男ex.png" )) )
+    if( !(texture_ = Texture::load( L"tyutyu1.png" )) )
     {
         // エラー
         return false;
@@ -100,21 +83,6 @@ bool Player::init()
 //*****************************************************************************
 bool Player::update()
 {
-
-    //きのこの出現ポイントランダム
-    rx = (rand() % 1220) + 30.0F;
-    ry = (rand() % 650) + 30.0F;
-
-    rx2 = (rand() % 1220) + 30.0F;
-    ry2 = (rand() % 650) + 30.0F;
-
-
-    //手
-    trim_.top = 450L;
-    trim_.left = 390L;
-    trim_.right = 450L;
-    trim_.bottom = 511L;
-
     //入力を取得
     auto key = KeyInput::getState();
     auto key_tracker = KeyInput::getTracker();
@@ -141,15 +109,7 @@ bool Player::update()
     ////////////////////  Aボタン  //////////////////////
     if( key_tracker.pressed.Z || pad.a == GamePad::ButtonStateTracker::HELD )
     {
-        chase = true;
-        trim_.top = 450L;
-        trim_.left = 452L;
-        trim_.right = 510L;
-        trim_.bottom = 511L;
-        //2点間の距離を求める
-        float length = pow( position_.x - position2_.x, 2.0F ) + pow( position_.y - position2_.y, 2.0F );
-        //2点間の距離を求める
-        float length2 = pow( position_.x - position4_.x, 2.0F ) + pow( position_.y - position4_.y, 2.0F );
+       
     }
     // 角度を計算(戻り値はラジアン)
     rad = atan2( y, -x );
@@ -170,7 +130,7 @@ void Player::draw()
     auto key_tracker = KeyInput::getTracker();
 
     //きのこ
-    Sprite::Draw(
+    /*Sprite::Draw(
         texture_,
         position2_,
         &trim2_,
@@ -190,7 +150,7 @@ void Player::draw()
         direction_,
         Vector2( 1.0F, 1.0F ),
         Vector2( 32.0F, 32.0F )
-    );
+    );*/
 
     //手
     Sprite::Draw(
