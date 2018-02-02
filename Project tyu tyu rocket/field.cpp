@@ -5,6 +5,7 @@
 #include "error.h"
 #include "keyinput.h"
 #include "release.h"
+#include "player.h"
 
 //定数
 const int kTileSize = 72;   //タイルサイズ
@@ -25,13 +26,19 @@ Field::Field()
     tiles_ = NULL;
     width_ = 0;
     height_ = 0;
+    //カーソール
+    trim_.top = 0L;
+    trim_.left = 669L;
+    trim_.right = 714L;
+    trim_.bottom = 47L;
+    direction_ = SpriteEffects_None;
 }
 
 //初期化
 bool Field::init()
 {
     //テクスチャの読み込み
-    if( !(texture_ = Texture::load( L"tyutyu1.png" )) )
+    if( !(texture_ = Texture::load( L"tyutyu2.png" )) )
     {
         //エラー
         return false;
@@ -72,7 +79,8 @@ bool Field::init()
 
     for( int i = 0; i < width_ * height_; i++ )
     {
-        tiles_[ i ].position.x = 360.0F;
+        tiles_[ i ].position.x = 380.0F;
+        tiles_[ i ].position.y = 30.0F;
         //IDの取得
         fread( &tiles_[ i ].id, sizeof( char ), 1, fp );
 
@@ -90,6 +98,8 @@ bool Field::init()
     //ファイルを閉じる
     fclose( fp );
 
+
+
     return true;
 
 }
@@ -101,7 +111,8 @@ void Field::update()
     // 入力状態を取得
     auto key = KeyInput::getState();
     auto key_tracker = KeyInput::getTracker();
-
+    pos = Player::position_go;
+    
 }
 
 //描画
@@ -111,6 +122,17 @@ void Field::draw()
     {
         Sprite::Draw( texture_, tiles_[ i ].position, &tiles_[ i ].trim );
     }
+    //きのこ
+    Sprite::Draw(
+    texture_,
+    pos,
+    &trim_,
+    60,
+    0.0F,
+    direction_,
+    Vector2( 1.0F, 1.0F ),
+    Vector2( 32.0F, 32.0F )
+    );
 }
 
 //破棄

@@ -3,6 +3,21 @@
 //  Class
 //*****************************************************************************
 #include "title.h"
+
+//struct
+struct Cursor
+{
+    Vector2 position;       //座標
+    //RECT    trim;           //描画範囲
+
+                            //コンストラクタ
+    Cursor()
+    {
+        position = Vector2( 0.0F );
+    }
+};
+
+
 class Player
 {
 private:
@@ -62,5 +77,6 @@ public:
     static bool ret;    //戻り値用
     static bool doku;
     static bool syuuryou;
+    static Vector2 position_go;     //やらかし
 
 };

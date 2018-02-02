@@ -25,7 +25,9 @@ private:
     ID3D11ShaderResourceView* texture_;     //テクスチャ
     Tile* tiles_;       //タイル構造体ポインタ
     int width_, height_;        //マップ横幅、縦幅（個数）
-
+    Vector2  pos;
+    SpriteEffects direction_;   // スプライトエフェクト（向き）
+    RECT    trim_;              // 描画範囲
 public:
     Field();            //コンストラクタ
     ~Field();           //デストラクタ

@@ -48,7 +48,7 @@ bool Title::init()
 {
 
     //テクスチャの読み込み
-    if( !(texture_ = Texture::load( L"tyutyu1.png" )) )
+    if( !(texture_ = Texture::load( L"tyutyu2.png" )) )
     {
         //エラー
         return false;
@@ -71,7 +71,6 @@ bool Title::update()
     if( key.Z || pad.a == GamePad::ButtonStateTracker::HELD )
     {
         thn = true;
-
     }
 
     if( thn == true )

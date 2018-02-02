@@ -9,16 +9,15 @@
 #include "title.h"
 #include "field.h"
 
+//戻り値召喚
 bool Player::ret;
 bool Player::syuuryou;
 bool Player::doku;
+Vector2 Player::position_go;
 
 //*****************************************************************************
 //  定数
 //*****************************************************************************
-float rotation = 0.0F;
-bool chase = true;  // 追跡フラグ
-const float radius = 32.0F;     //半径
 
 //*****************************************************************************
 //  コンストラクタ
@@ -45,8 +44,8 @@ Player::Player()
 
     //カーソール
     trim_.top = 0L;
-    trim_.left = 764L;
-    trim_.right = 811L;
+    trim_.left = 669L;
+    trim_.right = 714L;
     trim_.bottom = 47L;
 
 
@@ -69,12 +68,14 @@ Player::Player()
 bool Player::init()
 {
     // テクスチャの読み込み
-    if( !(texture_ = Texture::load( L"tyutyu1.png" )) )
+    if( !(texture_ = Texture::load( L"tyutyu2.png" )) )
     {
         // エラー
         return false;
     }
 
+
+    //タイル個数分のメモリを動的確保
     return true;
 }
 
@@ -104,13 +105,15 @@ bool Player::update()
         //移動
         position_.x += cos( rad ) * length * 10.0F;
         position_.y -= sin( rad ) * length * 10.0F;
+        Player::position_go = position_;
     }
 
     ////////////////////  Aボタン  //////////////////////
     if( key_tracker.pressed.Z || pad.a == GamePad::ButtonStateTracker::HELD )
     {
-       
+   
     }
+
     // 角度を計算(戻り値はラジアン)
     rad = atan2( y, -x );
     // 長さを計算
