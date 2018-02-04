@@ -68,7 +68,7 @@ Player::Player()
 bool Player::init()
 {
     // テクスチャの読み込み
-    if( !(texture_ = Texture::load( L"tyutyu2.png" )) )
+    if( !(texture_ = Texture::load( L"TYUTYU10.png" )) )
     {
         // エラー
         return false;
@@ -91,6 +91,8 @@ bool Player::update()
     auto kaiten = PadInput::State();
     x = kaiten.thumbSticks.leftX;
     y = kaiten.thumbSticks.leftY;
+	//カーソル帯
+	Player::position_go = position_;
 
     //アナログ入力がある場合のみ移動
     if( x != 0.0F || y != 0.0F )
@@ -105,8 +107,9 @@ bool Player::update()
         //移動
         position_.x += cos( rad ) * length * 10.0F;
         position_.y -= sin( rad ) * length * 10.0F;
-        Player::position_go = position_;
+
     }
+
 
     ////////////////////  Aボタン  //////////////////////
     if( key_tracker.pressed.Z || pad.a == GamePad::ButtonStateTracker::HELD )
@@ -155,7 +158,7 @@ void Player::draw()
         Vector2( 32.0F, 32.0F )
     );*/
 
-    //手
+    //カーソル
     Sprite::Draw(
         texture_,
         position_,
@@ -164,7 +167,7 @@ void Player::draw()
         0.0F,
         direction_,
         Vector2( 1.0F, 1.0F ),
-        Vector2( 30.0F, 30.0F )
+        Vector2( 0.0F, 0.0F )
     );
 }
 

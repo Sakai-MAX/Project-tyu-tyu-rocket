@@ -48,7 +48,7 @@ bool Title::init()
 {
 
     //テクスチャの読み込み
-    if( !(texture_ = Texture::load( L"tyutyu2.png" )) )
+    if( !(texture_ = Texture::load( L"TYUTYU10.png" )) )
     {
         //エラー
         return false;

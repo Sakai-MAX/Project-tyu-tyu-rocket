@@ -7,17 +7,7 @@
 #include "release.h"
 #include "player.h"
 
-//定数
 const int kTileSize = 72;   //タイルサイズ
-
-float ac = 0;
-float wc = 0;
-float sc = 0;
-float dc = 0;
-int atx = 10;
-int aty = 5;
-
-float wct = 0;
 
 //コンストラクタ
 Field::Field()
@@ -31,14 +21,33 @@ Field::Field()
     trim_.left = 669L;
     trim_.right = 714L;
     trim_.bottom = 47L;
+
+
+	//背景
+	trim2_.top = 1328L;
+	trim2_.left = 0L;
+	trim2_.right = 2080L;
+	trim2_.bottom = 2047L;
+	position_ = Vector2(0.0F, 0.0F);
+
+	ac = 0;
+	wc = 0;
+	sc = 0;
+	dc = 0;
+	atx = 10;
+	aty = 5;
+
+	wct = 0;
     direction_ = SpriteEffects_None;
+
+
 }
 
 //初期化
 bool Field::init()
 {
     //テクスチャの読み込み
-    if( !(texture_ = Texture::load( L"tyutyu2.png" )) )
+    if( !(texture_ = Texture::load( L"TYUTYU10.png" )) )
     {
         //エラー
         return false;
@@ -118,6 +127,17 @@ void Field::update()
 //描画
 void Field::draw()
 {
+	//背景
+	Sprite::Draw(
+		texture_,
+		position_,
+		&trim2_,
+		255,
+		0.0F,
+		direction_,
+		Vector2(1.0F, 1.0F),
+		Vector2(0.0F, 0.0F)
+	);
     for( int i = 0; i < width_ * height_; i++ )
     {
         Sprite::Draw( texture_, tiles_[ i ].position, &tiles_[ i ].trim );
@@ -131,8 +151,10 @@ void Field::draw()
     0.0F,
     direction_,
     Vector2( 1.0F, 1.0F ),
-    Vector2( 32.0F, 32.0F )
+    Vector2( 0.0F, 0.0F )
     );
+
+
 }
 
 //破棄

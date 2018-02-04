@@ -26,8 +26,19 @@ private:
     Tile* tiles_;       //タイル構造体ポインタ
     int width_, height_;        //マップ横幅、縦幅（個数）
     Vector2  pos;
+	Vector2  position_;
     SpriteEffects direction_;   // スプライトエフェクト（向き）
     RECT    trim_;              // 描画範囲
+	RECT    trim2_;              // 描画範囲
+
+	float ac;
+	float wc;
+	float sc;
+	float dc;
+	int atx;
+	int aty;
+
+	float wct;
 public:
     Field();            //コンストラクタ
     ~Field();           //デストラクタ
