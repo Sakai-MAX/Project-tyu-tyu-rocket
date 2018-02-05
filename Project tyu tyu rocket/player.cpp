@@ -5,7 +5,7 @@
 #include "padinput.h"
 #include "sprite.h"
 #include "release.h"
-#include"font.h"
+#include "font.h"
 #include "title.h"
 #include "field.h"
 
@@ -29,8 +29,9 @@ Player::Player()
     rx2 = (rand() % 1220) + 30.0F;
     ry2 = (rand() % 650) + 30.0F;
     texture_ = NULL;
-    position_ = Vector2( 46.0F, 424.0F );
-    position2_ = Vector2( rx, ry );
+    position_ = Vector2( 956.0F, 390.0F );
+    position_at_ = Vector2( 0.0F, 0.0F );
+    position2_ = Vector2( 884.0F, 318.0F );
     position3_ = Vector2( 0.0F, 0.0F );
     position4_ = Vector2( rx2, ry2 );
     message_vec_ = Vector2( 550.0F, 480.0F + 35.0F ); // メッセージ描画位置
@@ -48,6 +49,12 @@ Player::Player()
     trim_.right = 714L;
     trim_.bottom = 47L;
 
+    //カーソールかっこ
+    trim2_.top = 144L;
+    trim2_.left = 72L;
+    trim2_.right = 144L;
+    trim2_.bottom = 216L;
+
 
     terget_radius_ = 32.0F;   // ターゲットの半径
     ball_radius_ = 9.0F;    // 砲弾の半径
@@ -55,6 +62,9 @@ Player::Player()
     hit_count = 0;      //ヒットカウント
 
     crad = 0.0F;
+
+    atx = false;
+    aty = false;
 
     Player::ret = true;    //戻り値用
     Player::syuuryou = true;
@@ -107,9 +117,64 @@ bool Player::update()
         //移動
         position_.x += cos( rad ) * length * 10.0F;
         position_.y -= sin( rad ) * length * 10.0F;
-
+        position_at_.x += cos( rad ) * length * 10.0F;
+        position_at_.y -= sin( rad ) * length * 10.0F;
     }
 
+    
+    //カーソル移動判定
+    if( atx == false && position_at_.x >= 36)
+    {
+        atx = true;
+        position_at_.x = 0;
+        position2_.x += 72.0F;
+    }
+
+    if( aty == false && position_at_.y >= 36 )
+    {
+        aty = true;
+
+        position_at_.y = 0;
+        position2_.y += 72.0F;
+    }
+
+    if( atx == false && position_at_.x <= -36 )
+    {
+        atx = true;
+        position_at_.x = 0;
+        position2_.x -= 72.0F;
+    }
+
+    if( aty == false && position_at_.y <= -36 )
+    {
+        aty = true;
+        position_at_.y = 0;
+        position2_.y -= 72.0F;
+    }
+
+    if( atx == true && position_at_.x >= 72 )
+    {
+        position_at_.x = 0;
+        position2_.x += 72.0F;
+    }
+
+    if( aty == true && position_at_.y >= 72 )
+    {
+        position_at_.y = 0;
+        position2_.y += 72.0F;
+    }
+
+    if( atx == true && position_at_.x <= -72 )
+    {
+        position_at_.x = 0;
+        position2_.x -= 72.0F;
+    }
+
+    if( aty == true && position_at_.y <= -72 )
+    {
+        position_at_.y = 0;
+        position2_.y -= 72.0F;
+    }
 
     ////////////////////  Aボタン  //////////////////////
     if( key_tracker.pressed.Z || pad.a == GamePad::ButtonStateTracker::HELD )
@@ -135,8 +200,8 @@ void Player::draw()
     auto key = KeyInput::getState();
     auto key_tracker = KeyInput::getTracker();
 
-    //きのこ
-    /*Sprite::Draw(
+    //カーソルかっこ
+    Sprite::Draw(
         texture_,
         position2_,
         &trim2_,
@@ -144,19 +209,8 @@ void Player::draw()
         0.0F,
         direction_,
         Vector2( 1.0F, 1.0F ),
-        Vector2( 32.0F, 32.0F )
+        Vector2( 0.0F, 0.0F )
     );
-    //きのこ2
-    Sprite::Draw(
-        texture_,
-        position4_,
-        &trim3_,
-        255,
-        0.0F,
-        direction_,
-        Vector2( 1.0F, 1.0F ),
-        Vector2( 32.0F, 32.0F )
-    );*/
 
     //カーソル
     Sprite::Draw(
@@ -167,8 +221,15 @@ void Player::draw()
         0.0F,
         direction_,
         Vector2( 1.0F, 1.0F ),
-        Vector2( 0.0F, 0.0F )
+        Vector2( 36.0F, 36.0F )
     );
+    // アルファ値確認用(Debug)
+    wchar_t str[ _MAX_PATH ];
+    swprintf_s( str, L"position x: %.1f", position_.x );
+    Font::draw( str, Vector2( 0.0F, 0.0F ) );
+
+    swprintf_s( str, L"position y: %.1f", position_.y );
+    Font::draw( str, Vector2( 0.0F, 25.0F ) );
 }
 
 void Player::destroy()

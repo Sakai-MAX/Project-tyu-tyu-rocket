@@ -144,14 +144,14 @@ void Field::draw()
     }
     //‚«‚Ì‚±
     Sprite::Draw(
-    texture_,
-    pos,
-    &trim_,
-    60,
-    0.0F,
-    direction_,
-    Vector2( 1.0F, 1.0F ),
-    Vector2( 0.0F, 0.0F )
+        texture_,
+        pos,
+        &trim_,
+        60,
+        0.0F,
+        direction_,
+        Vector2( 1.0F, 1.0F ),
+        Vector2( 36.0F, 36.0F )
     );
 
 

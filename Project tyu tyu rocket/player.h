@@ -25,6 +25,7 @@ private:
     ID3D11ShaderResourceView* texture2_;
     SpriteEffects direction_;   // スプライトエフェクト（向き）
     Vector2 position_;          // 座標
+    Vector2 position_at_;
     Vector2 position2_;
     Vector2 position3_;
     Vector2 position4_;
@@ -33,14 +34,17 @@ private:
     Vector2 clear_position_;   // クリアの座標
     Vector2 message_vec_;      // メッセージ座標
 
-    RECT    trim_;              // 描画範囲
-    RECT    trim2_;
+    RECT    trim_;              // カーソル
+    RECT    trim2_;             // カーソルかっこ
     RECT    trim3_;
     RECT    trim4_;
     RECT    trim5_;
     RECT    clear_trim_;        // クリアの描画範囲
     RECT    message_trim_;      // メッセージ描画範囲
 
+
+    bool atx;
+    bool aty;
 
     bool    shooting_;
     bool    terget_hit_flag_;
