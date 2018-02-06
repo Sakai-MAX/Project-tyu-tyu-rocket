@@ -29,7 +29,7 @@ Player::Player()
     rx2 = (rand() % 1220) + 30.0F;
     ry2 = (rand() % 650) + 30.0F;
     texture_ = NULL;
-    position_ = Vector2( 956.0F, 390.0F );
+    position_ = Vector2( 884.0F, 318.0F );
     position_at_ = Vector2( 0.0F, 0.0F );
     position2_ = Vector2( 884.0F, 318.0F );
     position3_ = Vector2( 0.0F, 0.0F );
@@ -78,7 +78,7 @@ Player::Player()
 bool Player::init()
 {
     // テクスチャの読み込み
-    if( !(texture_ = Texture::load( L"TYUTYU10.png" )) )
+    if( !(texture_ = Texture::load( L"ﾁｭｰﾁｭｰﾛｹｯﾄ（ボード追加）.png" )) )
     {
         // エラー
         return false;
@@ -123,54 +123,25 @@ bool Player::update()
 
     
     //カーソル移動判定
-    if( atx == false && position_at_.x >= 36)
-    {
-        atx = true;
-        position_at_.x = 0;
-        position2_.x += 72.0F;
-    }
-
-    if( aty == false && position_at_.y >= 36 )
-    {
-        aty = true;
-
-        position_at_.y = 0;
-        position2_.y += 72.0F;
-    }
-
-    if( atx == false && position_at_.x <= -36 )
-    {
-        atx = true;
-        position_at_.x = 0;
-        position2_.x -= 72.0F;
-    }
-
-    if( aty == false && position_at_.y <= -36 )
-    {
-        aty = true;
-        position_at_.y = 0;
-        position2_.y -= 72.0F;
-    }
-
-    if( atx == true && position_at_.x >= 72 )
+    if( atx == true && position_at_.x > 1 )
     {
         position_at_.x = 0;
         position2_.x += 72.0F;
     }
 
-    if( aty == true && position_at_.y >= 72 )
+    if( aty == true && position_at_.y > 1 )
     {
         position_at_.y = 0;
         position2_.y += 72.0F;
     }
 
-    if( atx == true && position_at_.x <= -72 )
+    if( atx == false && position_at_.x < -72 )
     {
         position_at_.x = 0;
         position2_.x -= 72.0F;
     }
 
-    if( aty == true && position_at_.y <= -72 )
+    if( aty == false && position_at_.y < -72 )
     {
         position_at_.y = 0;
         position2_.y -= 72.0F;
@@ -221,7 +192,7 @@ void Player::draw()
         0.0F,
         direction_,
         Vector2( 1.0F, 1.0F ),
-        Vector2( 36.0F, 36.0F )
+        Vector2( 0.0F, 0.0F )
     );
     // アルファ値確認用(Debug)
     wchar_t str[ _MAX_PATH ];

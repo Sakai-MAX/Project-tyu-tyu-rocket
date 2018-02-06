@@ -12,7 +12,7 @@ Title::Title()
 {
 
     texture_ = NULL;
-    position_ = Vector2( 0.0F, 0.0F );
+    position_ = Vector2( 640.0F, 390.0F );
     position2_ = Vector2( 78.0F, 456.0F );
     position3_ = Vector2( 500.0F, 500.0F );
     position4_ = Vector2( 1000.0F, 700.0F );
@@ -21,10 +21,10 @@ Title::Title()
     trim_.left = 0L;
     trim_.right = 512L;
     trim_.bottom = 100L;
-    trim2_.top = 448L;
-    trim2_.left = 196L;
-    trim2_.right = 255L;
-    trim2_.bottom = 511L;
+    trim2_.top = 1328L;
+    trim2_.left = 0L;
+    trim2_.right = 2080L;
+    trim2_.bottom = 2047L;
     trim3_.top = 448L;
     trim3_.left = 260L;
     trim3_.right = 322L;
@@ -41,6 +41,9 @@ Title::Title()
     ret = true;
     thn = false;  // 待機カウント
     txc = 300;    // 透明度
+    kxc = 0.0F;    // 透明度
+    rx1 = 1.0F;
+    ry1 = 1.0F;
 }
 
 //初期化
@@ -48,7 +51,7 @@ bool Title::init()
 {
 
     //テクスチャの読み込み
-    if( !(texture_ = Texture::load( L"TYUTYU10.png" )) )
+    if( !(texture_ = Texture::load( L"タイトル.png" )) )
     {
         //エラー
         return false;
@@ -76,6 +79,9 @@ bool Title::update()
     if( thn == true )
     {
         txc -= 8;
+        kxc += 0.2F;
+        rx1 -= 0.08F;
+        ry1 -= 0.08F;
     }
 
     if( txc < 0 )
@@ -91,17 +97,17 @@ bool Title::update()
 //描画
 void Title::draw()
 {
-    /*Sprite::Draw(
+    Sprite::Draw(
         texture_,
-        position2_,
+        position_,
         &trim2_,
         txc,
-        0.0F,
+        kxc,
         direction_,
-        Vector2( 1.0F, 1.0F ),
-        Vector2( 32.0F, 32.0F ) );
+        Vector2( rx1, ry1 ),
+        Vector2( 640.0F, 390.0F ) );
 
-    Sprite::Draw(
+   /* Sprite::Draw(
         texture_,
         position3_,
         &trim3_,
@@ -131,7 +137,7 @@ void Title::draw()
         Vector2( 1.0F, 1.0F ),
         Vector2( 32.0F, 32.0F ) );*/
 
-    Sprite::Draw( texture_, position_, 0, txc );
+ //   Sprite::Draw( texture_, position_, 0, txc );
 
 
 

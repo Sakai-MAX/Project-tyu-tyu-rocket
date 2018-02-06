@@ -33,6 +33,7 @@ private:
 
     bool thn;  // 待機カウント
     int  txc;    // 透明度
+    float kxc;
 
 public:
     Title();            //コンストラクタ

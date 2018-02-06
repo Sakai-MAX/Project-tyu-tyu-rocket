@@ -47,7 +47,7 @@ Field::Field()
 bool Field::init()
 {
     //テクスチャの読み込み
-    if( !(texture_ = Texture::load( L"TYUTYU10.png" )) )
+    if( !(texture_ = Texture::load( L"ﾁｭｰﾁｭｰﾛｹｯﾄ（ボード追加）.png" )) )
     {
         //エラー
         return false;
@@ -151,7 +151,7 @@ void Field::draw()
         0.0F,
         direction_,
         Vector2( 1.0F, 1.0F ),
-        Vector2( 36.0F, 36.0F )
+        Vector2( 0.0F, 0.0F )
     );
 
 
