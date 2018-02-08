@@ -8,9 +8,10 @@
 #include "font.h"
 #include "title.h"
 #include "field.h"
+#include "tyutyu.h"
 
 //戻り値召喚
-bool Player::ret;
+/*bool Player::ret;
 bool Player::syuuryou;
 bool Player::doku;
 Vector2 Player::position_go;
@@ -22,16 +23,16 @@ Vector2 Player::position_go;
 //*****************************************************************************
 //  コンストラクタ
 //*****************************************************************************
-Player::Player()
+Tyutyu::Tyutyu()
 {
     rx = (rand() % 1220) + 30.0F;
     ry = (rand() % 650) + 30.0F;
     rx2 = (rand() % 1220) + 30.0F;
     ry2 = (rand() % 650) + 30.0F;
     texture_ = NULL;
-    position_ = Vector2( 920.0F, 354.0F );
+    position_ = Vector2( 956.0F, 390.0F );
     position_at_ = Vector2( 36.0F, 36.0F );
-    position2_ = Vector2( 920.0F, 354.0F );
+    position2_ = Vector2( 884.0F, 318.0F );
     position3_ = Vector2( 0.0F, 0.0F );
     position4_ = Vector2( rx2, ry2 );
     message_vec_ = Vector2( 550.0F, 480.0F + 35.0F ); // メッセージ描画位置
@@ -74,13 +75,13 @@ Player::Player()
     Player::ret = true;    //戻り値用
     Player::syuuryou = true;
     Player::doku = true;
-    
+
 }
 
 //*****************************************************************************
 //  初期化
 //*****************************************************************************
-bool Player::init()
+bool Tyutyu::init()
 {
     // テクスチャの読み込み
     if( !(texture_ = Texture::load( L"ﾁｭｰﾁｭｰﾛｹｯﾄ（ボード追加）.png" )) )
@@ -97,7 +98,7 @@ bool Player::init()
 //*****************************************************************************
 //  更新処理
 //*****************************************************************************
-bool Player::update()
+bool Tyutyu::update()
 {
     //入力を取得
     auto key = KeyInput::getState();
@@ -106,8 +107,8 @@ bool Player::update()
     auto kaiten = PadInput::State();
     x = kaiten.thumbSticks.leftX;
     y = kaiten.thumbSticks.leftY;
-	//カーソル帯
-	Player::position_go = position_;
+    //カーソル帯
+    Player::position_go = position_;
 
     //アナログ入力がある場合のみ移動
     if( x != 0.0F || y != 0.0F )
@@ -120,38 +121,42 @@ bool Player::update()
         float length = hypot( x, y );
 
         //移動
-        position_.x += cos( rad ) * length * 10.0F;
-        position_.y -= sin( rad ) * length * 10.0F;
-        position_at_.x += cos( rad ) * length *10.0F;
-        position_at_.y -= sin( rad ) * length *10.0F;
+        position_.x += cos( rad ) * length;
+        position_.y -= sin( rad ) * length;
+        position_at_.x += cos( rad ) * length;
+        position_at_.y -= sin( rad ) * length;
     }
 
-    const float radius = 36.0F;     //半径
-    //2点間の距離を求める
-    float length = pow( position_.x - position2_.x, 1.0F ) + pow( position_.y - position2_.y, 1.0F );
-    float rad = atan2( y, x );
-    //カーそる判定
-    if( pow( position_.x - position2_.x, 1.0F ) >= 36.0F )
-    { 
+
+    //カーソル移動判定
+    if( position_at_.x > 72.0F )
+    {
+        position_at_.x = 0.0F;
         position2_.x += 72.0F;
     }
-    if( pow( position_.x - position2_.x, 1.0F ) <= -36.0F )
+
+    if( position_at_.y > 72.0F )
     {
-        position2_.x -= 72.0F;
-    }
-    if( pow( position_.y - position2_.y, 1.0F ) >= 36.0F )
-    {
+        position_at_.y = 0.0F;
         position2_.y += 72.0F;
     }
-    if( pow( position_.y - position2_.y, 1.0F ) <= -36.0F )
+
+    if( position_at_.x < 0.0F )
     {
+        position_at_.x = 72.0F;
+        position2_.x -= 72.0F;
+    }
+
+    if( position_at_.y < 0.0F )
+    {
+        position_at_.y = 72.0F;
         position2_.y -= 72.0F;
     }
 
     ////////////////////  Aボタン  //////////////////////
     if( key_tracker.pressed.Z || pad.a == GamePad::ButtonStateTracker::PRESSED )
     {
-   
+
     }
 
     ////////////////////  上  ///////////////////// 
@@ -182,14 +187,19 @@ bool Player::update()
         position_.x += 72.0F;
     }
 
+    // 角度を計算(戻り値はラジアン)
+    rad = atan2( y, -x );
+    // 長さを計算
+    length = hypot( x, y );
+
     // 右クリックされたら追跡しない(もう一度押されたら元に戻る）
 
-    return Player::syuuryou;
+    return Tyutyu::syuuryou;
 }
 //*****************************************************************************
 //  描画
 //*****************************************************************************
-void Player::draw()
+void Tyutyu::draw()
 {
     // スプライト描画
     auto key = KeyInput::getState();
@@ -204,7 +214,7 @@ void Player::draw()
         0.0F,
         direction_,
         Vector2( 1.0F, 1.0F ),
-        Vector2( 36.0F, 36.0F )
+        Vector2( 0.0F, 0.0F )
     );
 
     //カーソル
@@ -216,19 +226,11 @@ void Player::draw()
         0.0F,
         direction_,
         Vector2( 1.0F, 1.0F ),
-        Vector2( 0.0F, 0.0F )
+        Vector2( 36.0F, 36.0F )
     );
-    // アルファ値確認用(Debug)
-    wchar_t str[ _MAX_PATH ];
-    float length = pow( position_.x - position2_.x, 1.0F ) + pow( position_.y - position2_.y, 1.0F );
-    swprintf_s( str, L"position x: %.1f", length );
-    Font::draw( str, Vector2( 0.0F, 0.0F ) );
-
-    swprintf_s( str, L"position y: %.1f", position_at_.y );
-    Font::draw( str, Vector2( 0.0F, 25.0F ) );
 }
 
-void Player::destroy()
+void Tyutyu::destroy()
 {
     //テクスチャとメモリの解放
     SAFE_RELEASE( texture_ );
@@ -237,7 +239,7 @@ void Player::destroy()
 //*****************************************************************************
 //  デストラクタ
 //*****************************************************************************
-Player::~Player()
+Tyutyu::~Tyutyu()
 {
     destroy();
-}
+}*/

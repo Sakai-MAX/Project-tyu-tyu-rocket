@@ -45,6 +45,9 @@ private:
 
     bool atx;
     bool aty;
+    bool btx;
+    bool bty;
+
 
     bool    shooting_;
     bool    terget_hit_flag_;
