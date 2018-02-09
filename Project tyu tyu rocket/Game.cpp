@@ -4,6 +4,7 @@
 //コンストラクタ
 Game::Game()
 {
+   // tyutyu_ = new Tyutyu[ 100 ];
 }
 
 //初期化
@@ -11,7 +12,9 @@ bool Game::init()
 {
     //メンバクラス初期化
     if( !field_.init() )      return false;
+    if( !tyutyu_.init() )    return false;
     if( !player_.init() )     return false;
+
 
 
     return true;
@@ -21,7 +24,9 @@ bool Game::init()
 bool Game::update()
 {
     field_.update();
+    tyutyu_.update();
     player_.update();
+
 
     auto key = KeyInput::getTracker();
     if( Player::ret == false )
@@ -36,14 +41,18 @@ bool Game::update()
 void Game::draw()
 {
     field_.draw();
+    tyutyu_.draw();
     player_.draw();
+
 }
 
 //破棄
 void Game::destroy()
 {
     field_.destroy();
+    tyutyu_.destroy();
     player_.destroy();
+
 }
 
 //デストラクタ
