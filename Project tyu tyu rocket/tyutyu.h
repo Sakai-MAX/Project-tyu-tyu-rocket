@@ -37,7 +37,7 @@ private:
     bool aty;
     bool btx;
     bool bty;
-
+    int tyutyu_counter;
 
     bool    shooting_;
     bool    terget_hit_flag_;

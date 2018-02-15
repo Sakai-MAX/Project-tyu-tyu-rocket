@@ -26,7 +26,7 @@ Tyutyu::Tyutyu()
     rx2 = (rand() % 1220) + 30.0F;
     ry2 = (rand() % 650) + 30.0F;
     texture_ = NULL;
-    position_ = Vector2( 370.0F, 5.0F );
+    position_ = Vector2( 353.0F, -20.0F );
     message_vec_ = Vector2( 550.0F, 480.0F + 35.0F ); // メッセージ描画位置
     terget_position_ = Vector2( 200.0F, 370.0F );
     clear_position_ = Vector2( 210.0F, 100.0F );
@@ -37,16 +37,16 @@ Tyutyu::Tyutyu()
     message_trim_ = { 256L ,55L, (256L + 256L), (55L + 30L) };
 
     //チュウチュウ
-    trim_.top = 18L;
-    trim_.left = 19L;
-    trim_.right = 119L;
-    trim_.bottom = 118L;
+    trim_.top = 0L;
+    trim_.left = 0L;
+    trim_.right = 128L;
+    trim_.bottom = 128L;
 
     a = 0;
     w = 0;
     s = 0;
     d = 0;
-
+    tyutyu_counter = 0;
 
 }
 
@@ -125,16 +125,28 @@ bool Tyutyu::update()
     x = kaiten.thumbSticks.leftX;
     y = kaiten.thumbSticks.leftY;
   
-    if( anime_counter++ > 1 )
+
+    if( anime_counter++ > 0 )
     {
-        anime_no += 120;
-        trim_.top = 18L;
+        if( anime_no == 384 )
+            anime_no = -128L;
+        anime_no += 128;
+        tyutyu_counter++;
         trim_.left = anime_no;
-        trim_.right = anime_no + 100;
-        trim_.bottom = 118L;
+        trim_.right = anime_no + 128;
         anime_counter = 0;
-        if( anime_no > 100 * 4 )
-            anime_no = -100;
+    }
+    if( tyutyu_counter > 3 )
+    {
+        trim_.top = 128L;
+        trim_.bottom = 256L;
+    }
+
+    if( tyutyu_counter > 7 )
+    {
+        trim_.top = 0L;
+        trim_.bottom = 128L;
+        tyutyu_counter = 0;
     }
 
     
